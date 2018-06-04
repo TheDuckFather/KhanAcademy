@@ -1,0 +1,56 @@
+/*
+Created by TheDuckFather 2018!
+
+Visit my GitHub here: https://github.com/theduckfather
+*/
+
+
+var xPositions = [200];
+var yPositions = [0];
+var rainColour = [color(255, 0, 0), color(0, 255, 0), color(0, 0,     255), color(255, 255, 0), color(255, 0, 255), color(0, 255,       255)]; //these guarantee the first 5 rain colours!
+var i = 0; 
+//Declaring the variable i so I could use it in my loops
+
+
+
+draw = function() {
+    background(204, 247, 255);
+    noStroke();
+    fill(59, 46, 46); //Colour of my ground
+    rect(0, 350, 600, 400); //My ground
+    var rain = function(xPos, yPos) {
+        ellipse(xPos, yPos, 5, 15);
+    };//created my rain as a function to make it easier!
+
+    for (var i = 0; i < xPositions.length; i++) {
+        noStroke();
+        fill(rainColour[i]); //randomly generated array per click
+        rain(xPositions[i], yPositions[i]); 
+        yPositions[i] += random(1, 10); //the speed of the rain falling, I made it random for more natural looking rain...
+        
+        //this if loop creates a splash effect
+        if (yPositions[i] > 346) {
+            stroke(rainColour[i]);
+            strokeWeight(4);
+            line(xPositions[i], yPositions[i] + 2, xPositions[i] +             3, yPositions[i] + -15);
+            line(xPositions[i], yPositions[i] + 2, xPositions[i] -             3, yPositions[i] + -15);
+        }
+        // this if loop creates a small pool for smoother animation
+        if (yPositions[i] < 30) {
+            fill(rainColour[i]);
+            ellipse(xPositions[i], 353, 10, 5);
+        }
+        //this if loop just resets the Y coord of the rain when it hits the bottom!
+        if (yPositions[i] > 349) {
+            yPositions[i] = 0;
+            
+        }
+        
+    }
+    mouseClicked = function() {
+    xPositions.push(mouseX); //adds mouses X coord to the array
+    yPositions.push(0); // makes sure all rain start at 0 Y coord
+    rainColour.push(color(random(0, 255), random(0, 255), random(0,255))); //this creates a totally random rain colour!!
+};
+            
+};
